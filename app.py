@@ -78,7 +78,7 @@ def get_room_corners_from_video():
 
 def convert_room_corners_to_homography_matrix(room_corners):
     # Define the real world coordinates of the room corners
-    real_world_corners = np.array([[0, 0], [0, 1], [1, 1], [1, 0]], dtype=np.float32)
+    real_world_corners = np.array([[-2, -2], [-2, +2], [+2, +2], [+2, -2]], dtype=np.float32)
 
     # Convert the room corners to numpy array
     room_corners = np.array(room_corners, dtype=np.float32)
@@ -148,9 +148,14 @@ def display_room_locations_heat_map(room_locations):
     # Create an empty image to display the heat map
     heat_map = np.zeros((480, 640), dtype=np.uint8)
 
+    room_width = 16
+    room_height = 20
+
     # Draw circles at the room locations
     for room_location in room_locations:
         x, y = room_location[0]
+        x = x / room_width + 0.5
+        y = -y / room_height + 0.5
         cv2.circle(heat_map, (int(x * 640), int(y * 480)), 5, 255, -1)
 
     # Display the heat map
